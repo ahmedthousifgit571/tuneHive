@@ -1,10 +1,9 @@
 import {Router} from 'express'
+import { getUser } from '../controller/user.controller.js'
 
 const router = Router()
 
-router.get("/",(req,res)=>{
-    res.send("user route initiated successfully")
-})
+router.get("/",getUser)
 
 export default router
 

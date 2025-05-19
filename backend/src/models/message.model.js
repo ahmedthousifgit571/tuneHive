@@ -1,20 +1,19 @@
 import mongoose from 'mongoose'
 
-const userSchema = new mongoose.Schema({
-    fullName:{
+const messageSchema = new mongoose.Schema({
+    senderId:{
         type:String,
         required:true
     },
-    imageUrl :{
+    recieverId:{
         type:String,
         required:true
     },
-    clerkId:{
+    content:{
         type:String,
-        required:true,
-        unique:true
+        required:true
     }
 },{timestamps:true})
 
-export const User = mongoose.model("User",userSchema)
+export const Message = mongoose.model("Message",messageSchema)
 
