@@ -1,8 +1,8 @@
 import {Router} from 'express'
+import { protectedRoute, requiredAdmin } from '../middleware/auth.middleware'
 
 const router = Router()
 
-router.get("/",(req,res)=>{
-    res.send("admin route initated")
-})
+router.get("/",protectedRoute,requiredAdmin,createSong)
+
 export default router
