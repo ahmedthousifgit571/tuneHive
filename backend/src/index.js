@@ -10,6 +10,9 @@ import { connectDB } from './lib/db.js'
 import { clerkMiddleware } from '@clerk/express'
 import fileUpload from 'express-fileupload'
 import path from 'path'
+import { fileURLToPath } from 'url'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 dotenv.config()
 
@@ -22,7 +25,7 @@ app.use(clerkMiddleware())
 //middleware to upload file 
 app.use(fileUpload({
     useTempFiles:true,
-    tempFileDir:path.join(dirname,"tmp"),
+    tempFileDir: path.join(__dirname, "tmp"),
     createParentPath: true,
     limits:{
         fileSize: 10* 1024 * 1024
