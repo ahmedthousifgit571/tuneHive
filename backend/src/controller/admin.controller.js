@@ -33,7 +33,7 @@ export const createSong = async(req,res,next)=>{
         
         // upload file in cloudinary
         const audioUrl = await uploadToCloudinary(audioFile)
-        const imageUrl = await uploadToCloudinary(imageUrl)
+        const imageUrl = await uploadToCloudinary(imageFile)
 
         const song = new Song({
             title,
