@@ -4,6 +4,8 @@ import AuthCallback from './pages/auth-callback/AuthCallback'
 import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react"
 import MainLayout from "./layouts/MainLayout"
 import ChatPage from "./pages/chat-page/ChatPage"
+import { Album } from "lucide-react"
+import AlbumPage from "./pages/album-page/AlbumPage"
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
        <Route element={<MainLayout />}>
         <Route path="/" element={ <HomePage />}/>
         <Route path="/chat" element={<ChatPage />} />
+        <Route path="/albums/:albumId" element={<AlbumPage/>}/>
        </Route>
 
      </Routes>

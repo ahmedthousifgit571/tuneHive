@@ -14,8 +14,8 @@ export const getAllAlbums = async(req,res,next)=>{
 
 export const getAlbumById = async(req,res,next)=>{
     try {
-        const {id} = req.params
-        const album = await Album.findById(id)
+        const {albumId} = req.params
+        const album = await Album.findById(albumId)
         if(!album){
             return res.status(400).json({message:"album not found"})
         }
