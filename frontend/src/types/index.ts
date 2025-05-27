@@ -4,10 +4,10 @@ export interface Song {
     artist:string
     albumId:string | null 
     imageUrl:string
-    audioUrl:string
+    audioUrl:string 
     duration:number
-    createtedAt:Date
-    updatedAt:Date
+    createdAt:string
+    updatedAt:string
 }
 
 export interface Album {

@@ -1,13 +1,19 @@
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useMusicStore } from "@/stores/useMusicStore"
-import { Clock, Pause, Play, PlayIcon } from "lucide-react"
+import { Clock, Play,  } from "lucide-react"
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
 
+    const formatDuration = (seconds:number)=>{
+      const minutes = Math.floor(seconds / 60)
+      const remainingSeconds = seconds % 60
+      return `${minutes}:${remainingSeconds.toString().padStart(2,"0")}`
+    }
+
 const AlbumPage = () => {
     const{albumId} = useParams()
-    const{isLoading,songs,fetchAlbumById,currentAlbum} =  useMusicStore()
+    const{isLoading,fetchAlbumById,currentAlbum} =  useMusicStore()
 
     useEffect(()=>{
     if(albumId) fetchAlbumById(albumId)
@@ -15,6 +21,8 @@ const AlbumPage = () => {
 
 
     if(isLoading) return null
+
+    
   return (
     <div className="h-full">
       <ScrollArea className="h-full rounded-md">
@@ -84,8 +92,15 @@ const AlbumPage = () => {
                                                <Play className="h-4 w-4 hidden group-hover:block"/>
                                             </div>
                                             <div className="flex items-center gap-3">
-                                              <img src={song.imageUrl} alt={song.title} />
+                                              <img src={song.imageUrl} alt={song.title}  className="size-10"/>
+
+                                              <div>
+                                                <div className={`font-medium text-white`}>{song.title}</div>
+                                                <div>{song?.artist}</div>
+                                              </div>
                                             </div>
+                                            <div className="flex items-center">{song.createdAt ? song.createdAt.split("T")[0] : 'N/A'}</div>
+                                            <div className="flex items-center">{formatDuration(song?.duration)}</div>
                                         </div>
                                     ))
                                   }
