@@ -50,8 +50,13 @@ app.use("/api/stats",statsRoutes)
 
 
 // error handler
-app.use((err,req,res,next)=>{
- res.status(500).json({message:process.env.NODE_ENV==="production" ? "Internal server error" : err.message})
+app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err)  // Let Express handle it if headers are already sent
+  }
+  res.status(500).json({
+    message: process.env.NODE_ENV === "production" ? "Internal server error" : err.message
+  })
 })
 
 

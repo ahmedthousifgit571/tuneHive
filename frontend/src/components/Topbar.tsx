@@ -12,7 +12,9 @@ const Topbar = () => {
   return (
     <div className='p-4 flex items-center justify-between sticky top-0 bg-zinc-900/75 backdrop-blur-md z-10'>
       <div className='flex gap-2 items-center'>
+        <Link to="/">
         <img src="./logo.png" alt="Tune Hive Logo" className='size-12 rounded-xl shadow-2xl ring-2 ring-white/10 hover:ring-green-400/50 transition-all duration-300 hover:shadow-green-500/30 hover:-translate-y-0.5'/>
+        </Link>
         Tune hive
       </div>
       <div className='flex items-center gap-4'>

@@ -4,8 +4,9 @@ import AuthCallback from './pages/auth-callback/AuthCallback'
 import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react"
 import MainLayout from "./layouts/MainLayout"
 import ChatPage from "./pages/chat-page/ChatPage"
-import { Album } from "lucide-react"
 import AlbumPage from "./pages/album-page/AlbumPage"
+import AdminPage from "./pages/admin-page/AdminPage"
+import {Toaster} from 'react-hot-toast'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
        <Route path="/sso-callback" element={ <AuthenticateWithRedirectCallback signUpForceRedirectUrl={"/auth-callback"} />}/>
 
        <Route path="/auth-callback" element={<AuthCallback />} />
+       <Route path="/admin" element={<AdminPage />}  />
        
        <Route element={<MainLayout />}>
         <Route path="/" element={ <HomePage />}/>
@@ -23,6 +25,7 @@ function App() {
        </Route>
 
      </Routes>
+     <Toaster />
     </header>
    </>
   )
