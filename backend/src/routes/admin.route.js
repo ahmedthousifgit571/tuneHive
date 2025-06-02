@@ -9,7 +9,7 @@ router.get("/check",checkAdmin)
 router.post("/songs",createSong)
 router.delete("/deletesongs/:id",deleteSong)
 
-router.post("/album",createAlbum)
+router.post("/albums",createAlbum)
 router.delete("/deletealbum/:id",deleteAlbum)
 
 export default router
