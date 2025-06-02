@@ -24,7 +24,7 @@ export const checkAdmin = async(req,res,next)=>{
 
 export const createSong = async(req,res,next)=>{
     try {
-        if(!req.files || !req.files.audioFile ||!req.files.imageFile){
+        if(!req.files || !req.files.audioFile || !req.files.imageFile){
             return res.status(400).json({message:"please upload all files"})
         }
         const {title,artist, albumId,duration} = req.body
@@ -47,9 +47,9 @@ export const createSong = async(req,res,next)=>{
 
         // if songs belongs to album update the songs to the album
         if(albumId){
-            await Album.findByIdAndUpdate({
-                $push: {songs : song._id}
-            })
+            await Album.findByIdAndUpdate(albumId, {
+              $push: {songs : song._id}
+             });
         }
         res.status(201).json(song)
     } catch (error) {
@@ -63,9 +63,13 @@ export const deleteSong = async(req,res,next)=>{
         const {id} = req.params
         const song = await Song.findById(id)
 
+        if (!song) {
+            return res.status(404).json({message: "Song not found"});
+        }   
+
         // if song is there in album remove it
         if(song.albumId){
-          await Album.findByIdAndUpdate({
+          await Album.findByIdAndUpdate(song.albumId,{
             $pull:{songs:song._id}
           })
         }
