@@ -8,10 +8,12 @@ import albumRoutes from './routes/album.route.js'
 import statsRoutes from './routes/stats.route.js'
 import { connectDB } from './lib/db.js'
 import { clerkMiddleware } from '@clerk/express'
+import { createServer } from 'http'
 import fileUpload from 'express-fileupload'
 import path from 'path'
 import cors from 'cors'
 import { fileURLToPath } from 'url'
+import { initializeSocket } from './lib/socket.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -19,6 +21,10 @@ dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT
+
+// configuration socket
+const httpServer = createServer(app)
+initializeSocket(httpServer)
 
 app.use(cors(
     {
@@ -60,7 +66,7 @@ app.use((err, req, res, next) => {
 })
 
 
-app.listen(PORT,()=>{
+httpServer.listen(PORT,()=>{
     console.log(`server running on port :${PORT}`);
     connectDB()
 })
