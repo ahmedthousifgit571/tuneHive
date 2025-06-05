@@ -4,7 +4,7 @@ import {create} from 'zustand'
 import {io} from 'socket.io-client'
 
 interface ChatStore{
-    users: any[]
+    users: User[]
     isLoading: boolean
     error : string | null
 
@@ -52,73 +52,78 @@ export const useChatStore = create<ChatStore>((set,get)=> ({
         }
     },
     
-    initSocket : async(userId:string)=>{
-      if(!get().socket.isConnected){
-        socket.auth = {userId}
-        socket.connect()
-        socket.emit("user_connected",userId)   //send an event
+    initSocket: async (userId: string) => {
+  const state = get();
+  
+  // If no socket exists in state, assign it first
+  if (!state.socket) {
+    set({ socket });
+  }
 
-        socket.on("user_online",(users:string[])=>{  //listend and set to onlineusers
-            set({onlineUsers:new Set(users)})
-        })
- 
-        // listening to activites
-        socket.on("activities",(activities:[string,string][]) =>{   
-            set({userActivities: new Map(activities)})
-        })
+  // Now safely access isConnected
+  if (!socket.connected) {
+    socket.auth = { userId };
+    socket.connect();
+    socket.emit("user_connected", userId);
 
-        // listening for connected users
-        socket.on("user_connected",(userId:string)=>{
-            set((state)=> ({
-                onlineUsers: new Set([...state.onlineUsers,userId])
-            }))
-        })
+    // all your event listeners
+    socket.on("users_online", (users: string[]) => {
+      set({ onlineUsers: new Set(users) });
+    });
 
-        // listening for disconnected users
-        socket.on("user_disconnected",(userId:string)=>{
-            set((state)=> {
-                const newOnlineUsers = new Set(state.onlineUsers)
-                newOnlineUsers.delete(userId)
-                return {onlineUsers: newOnlineUsers}
-            })
-        })
+    socket.on("activities", (activities: [string, string][]) => {
+      set({ userActivities: new Map(activities) });
+    });
 
-        // listening on recieved message:
-        socket.on("recieved_message",(message:Message)=>{
-            set((state) => ({
-                messages:[...state.messages,message]
-            }))
-        })
+    socket.on("user_connected", (userId: string) => {
+      set((state) => ({
+        onlineUsers: new Set([...state.onlineUsers, userId]),
+      }));
+    });
 
-        // listening on sent message
-        socket.on("message_sent",(message:Message)=>{
-            set((state) => ({
-                messages:[...state.messages,message]
-            }))
-        })
+    socket.on("user_disconnected", (userId: string) => {
+      set((state) => {
+        const newOnlineUsers = new Set(state.onlineUsers);
+        newOnlineUsers.delete(userId);
+        return { onlineUsers: newOnlineUsers };
+      });
+    });
 
-        // listening on updated activity
-        socket.on("activity_updated",({userId,activity})=>{
-            set((state)=> {
-                    const newActivities = new Map(state.userActivities)
-                    newActivities.set(userId,activity)
-                    return {userActivities:newActivities}
-            })
-        })
+    socket.on("recieved_message", (message: Message) => {
+      set((state) => ({
+        messages: [...state.messages, message],
+      }));
+    });
 
-        set({isConnected:true})
-      }
-    },
+    socket.on("message_sent", (message: Message) => {
+      set((state) => ({
+        messages: [...state.messages, message],
+      }));
+    });
+
+    socket.on("activity_updated", ({ userId, activity }) => {
+      set((state) => {
+        const newActivities = new Map(state.userActivities);
+        newActivities.set(userId, activity);
+        return { userActivities: newActivities };
+      });
+    });
+
+    set({ isConnected: true });
+  }
+},
+
     
-    disconnectSocket: async()=>{
-        if(get().isConnected){
-        socket.disconnect()
-        set({isConnected:false})
-        }
-        
-    },
+    disconnectSocket: async () => {
+  const state = get();
+  if (state.socket && state.isConnected) {
+    state.socket.disconnect();
+    set({ isConnected: false });
+  }
+},
 
     sendMessage : async(recieverId,senderId,content)=>{
+        
       const socket = get().socket
       if(!socket) return 
 
