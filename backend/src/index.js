@@ -65,6 +65,9 @@ cron.schedule("0 * * * *", () => {
 	}
 });
 
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end(); // No content
+});
 
 app.use("/api/users",userRoutes)
 app.use("/api/auth",authRoutes)
