@@ -63,7 +63,7 @@ const LeftsideBar = () => {
         </div>
 
         {/* scrollable playlist content */}
-        <ScrollArea className='flex-1'>
+        <ScrollArea className='h-64'>
            <div className='space-y-2'>
               {isLoading ?(
                   <PlaylistSkeleton/>

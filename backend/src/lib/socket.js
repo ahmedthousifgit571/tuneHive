@@ -33,16 +33,16 @@ export const initializeSocket = (server) => {
 
 		socket.on("send_message", async (data) => {
 			try {
-				const { senderId, receiverId, content } = data;
+				const { senderId, recieverId, content } = data;
 
 				const message = await Message.create({
 					senderId,
-					receiverId,
+					recieverId,
 					content,
 				});
 
 				// send to receiver in realtime, if they're online
-				const receiverSocketId = userSockets.get(receiverId);
+				const receiverSocketId = userSockets.get(recieverId);
 				if (receiverSocketId) {
 					io.to(receiverSocketId).emit("receive_message", message);
 				}

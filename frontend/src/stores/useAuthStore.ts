@@ -17,12 +17,19 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
 
     checkAdmin : async () =>{
-        set({isLoading:true})
+        set({ isLoading: true, error: null })
         try {
             const response = await axiosInstance.get("/admin/check")
-            set({isAdmin: response.data.admin})
+             set({ isAdmin: response.data.admin, error: null })
         } catch (error:any) {
-            set({isAdmin:false, error:error.response.data.message})
+           if (error.response?.status === 403) {
+            // User is not admin - this is expected behavior
+            set({ isAdmin: false, error: null })
+        } else {
+            // Other errors (network, server, etc.)
+            const errorMessage = error.response?.data?.message || "Failed to check admin status"
+            set({ isAdmin: false, error: errorMessage })
+        }
         }finally{
             set({isLoading:false})
         }
