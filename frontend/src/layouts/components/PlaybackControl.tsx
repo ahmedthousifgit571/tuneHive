@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { formatDuration } from "@/pages/album-page/AlbumPage"
 import { usePlayerStore } from "@/stores/usePlayerStore"
 import { Laptop2, ListMusic, Mic2, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Volume1 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
