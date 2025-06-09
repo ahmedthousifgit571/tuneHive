@@ -1,0 +1,13 @@
+{
+  "name": "tunehive",
+  "version": "1.0.0",
+  "description": "A modern Spotify-inspired music streaming platform built with React, TypeScript, and Node.js",
+  "main": "index.js",
+  "scripts": {
+    "build":"npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start":"npm start --prefix backend" 
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
