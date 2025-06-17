@@ -1,13 +1,14 @@
 {
-  "name": "tunehive",
+  "name": "tunehive-fullstack",
   "version": "1.0.0",
-  "description": "A modern Spotify-inspired music streaming platform built with React, TypeScript, and Node.js",
-  "main": "index.js",
   "scripts": {
-    "build":"npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
-    "start":"npm start --prefix backend" 
+    "build": "cd frontend && npm install && npm run build",
+    "start": "cd backend && npm start",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+    "install-all": "cd backend && npm install && cd ../frontend && npm install"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
