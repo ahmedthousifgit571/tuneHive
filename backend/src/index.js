@@ -30,10 +30,7 @@ initializeSocket(httpServer)
 
 app.use(cors({
     origin: process.env.NODE_ENV === "production" 
-        ? [
-            "https://tune-hive-bkuc.vercel.app",
-            "https://tunehive.onrender.com"
-          ]
+        ? true  // Allow same-origin requests
         : "http://localhost:3000",
     credentials: true
 }))
