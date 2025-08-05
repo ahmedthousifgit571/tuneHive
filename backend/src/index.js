@@ -28,11 +28,16 @@ const PORT = process.env.PORT
 const httpServer = createServer(app)
 initializeSocket(httpServer)
 
+// app.use(cors({
+//     origin: process.env.NODE_ENV === "production" 
+//         ? true  // Allow same-origin requests
+//         : "http://localhost:3000",
+//     credentials: true
+// }))
+
 app.use(cors({
-    origin: process.env.NODE_ENV === "production" 
-        ? true  // Allow same-origin requests
-        : "http://localhost:3000",
-    credentials: true
+  origin: process.env.FRONTEND_URL, // Set to your deployed frontend URL
+  credentials: true
 }))
 
 app.use(express.json())    //to parse req.body
